@@ -31,5 +31,7 @@ public class TestConfig implements CommandLineRunner {
         // Salva os usuários no banco de dados usando o repositório
         // Arrays.asList cria uma lista com os usuários para serem salvos de uma vez
         userRepository.saveAll(Arrays.asList(u1, u2));
+
+
     }
 }
