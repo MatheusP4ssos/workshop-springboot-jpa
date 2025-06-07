@@ -5,14 +5,20 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 
-@Entity
-@Table(name = "tb_users")
+@Entity// @Entity: Indica que esta classe é uma entidade JPA (será uma tabela no banco)
+@Table(name = "tb_users")// @Table: Especifica o nome da tabela no banco de dados
+
+// Serializable permite que o objeto seja convertido em bytes (útil para transferência de dados)
 public class User implements Serializable {
+    // Controle de versão da classe para serialização
     private static final long serialVersionUID = 1L;
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id    // @Id: Marca este campo como chave primária da tabela
+    @GeneratedValue(strategy = GenerationType.IDENTITY)    // @GeneratedValue: O banco irá gerar automaticamente os IDs
+
     private Long id;
+
+    // Campos da entidade (viram colunas na tabela)
     private String name;
     private String email;
     private String phone;
@@ -20,7 +26,8 @@ public class User implements Serializable {
     
     public User() {
     }
-    
+
+    // Construtores, getters e setters...
     public User(Long id, String name, String email, String phone, String password) {
         this.id = id;
         this.name = name;
