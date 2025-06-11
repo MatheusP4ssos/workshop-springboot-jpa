@@ -1,6 +1,8 @@
 package com.matheus.ecommerce_api.resources;
 
+import com.matheus.ecommerce_api.entities.Order;
 import com.matheus.ecommerce_api.entities.User;
+import com.matheus.ecommerce_api.services.OrderService;
 import com.matheus.ecommerce_api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,15 +16,16 @@ import java.util.List;
 // @RestController: Combina @Controller e @ResponseBody, indica que esta classe é um controlador REST
 @RestController
 // @RequestMapping: Define o endpoint base para todos os métodos desta classe
-@RequestMapping(value = "/users")
-public class UserResource {
+@RequestMapping(value = "/orders")
+
+public class OrderResource {
 
     @Autowired
-    private UserService service;
+    private OrderService service;
 
     @GetMapping    // @GetMapping: Mapeia requisições HTTP GET para este método
-    public ResponseEntity<List<User>> findAll() {
-        List<User> list = service.findAll();
+    public ResponseEntity<List<Order>> findAll() {
+        List<Order> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
@@ -31,9 +34,9 @@ public class UserResource {
     @GetMapping(value = "/{id}")
     // @PathVariable ("id"): Indica que o parâmetro 'id' do método deve ser extraído
     // da variável de caminho {id} na URL
-    public ResponseEntity<User> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<Order> findById(@PathVariable("id") Long id) {
         // Chama o serviço para buscar o usuário pelo ID fornecido
-        User obj = service.findById(id);
+        Order obj = service.findById(id);
         // ResponseEntity.ok(): Cria uma resposta HTTP com status 200 (OK)
         // .body(obj): Define o corpo da resposta como o objeto usuário encontrado
         // O objeto será automaticamente convertido para JSON

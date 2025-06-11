@@ -1,6 +1,8 @@
 package com.matheus.ecommerce_api.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -24,8 +26,21 @@ public class User implements Serializable {
     private String name;
     private String email;
     private String phone;
+
+    // Permite apenas receber a senha nas requisições (POST/PUT)
+    // mas não permite que ela seja enviada nas respostas
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    // Método público que retorna a senha mascarada com asteriscos
+    // Este será usado na serialização JSON
+    @JsonProperty("password")
+    public String getMaskedPassword() {
+        return password == null ? null : "*".repeat(8);
+    }
+
+    @JsonIgnore // Evita loop infinito na serialização JSON
+    @OneToMany(mappedBy = "client") //Define a associação com a classe Order
     private List<Order> orders = new ArrayList<>(); //Imlementa a associação com a classe Order
 
     public User() {
@@ -40,13 +55,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    // Getters e Setters
-
-    @OneToMany(mappedBy = "client") //Define a associação com a classe Order
-    public List<Order> getOrders() { //Implementa a associação com a classe Order
-        return orders;
+    // Método privado para acesso interno à senha real
+    private String getPasswordInternal() {
+        return password;
     }
 
+
+
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -86,4 +102,5 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }
