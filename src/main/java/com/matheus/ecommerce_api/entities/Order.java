@@ -2,6 +2,7 @@ package com.matheus.ecommerce_api.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
+import com.matheus.ecommerce_api.entities.enums.OrderStatus;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
@@ -25,6 +26,9 @@ public class Order implements Serializable {
                 timezone = "GMT")
     private Instant moment;
 
+    private Integer orderStatus;
+
+
     // Define relacionamento muitos-para-um com User
     // Um pedido pertence a um cliente
     // JoinColumn define a coluna de chave estrangeira
@@ -35,8 +39,9 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Long id, Instant moment, User client) {  // Alterado de 'long' para 'Long'
+    public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {  // Alterado de 'long' para 'Long'
         this.id = id;
+        setOrderStatus(orderStatus);
         this.moment = moment;
         this.client = client;
     }
@@ -55,6 +60,16 @@ public class Order implements Serializable {
 
     public void setMoment(Instant moment) {
         this.moment = moment;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return OrderStatus.valueOf(orderStatus);
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        if (orderStatus != null) {
+            this.orderStatus = orderStatus.getCode();
+        }
     }
 
     public User getClient() {
