@@ -1,8 +1,10 @@
 package com.matheus.ecommerce_api.config;
 
+import com.matheus.ecommerce_api.entities.Category;
 import com.matheus.ecommerce_api.entities.Order;
 import com.matheus.ecommerce_api.entities.User;
 import com.matheus.ecommerce_api.entities.enums.OrderStatus;
+import com.matheus.ecommerce_api.repositories.CategoryRepository;
 import com.matheus.ecommerce_api.repositories.OrderRepository;
 import com.matheus.ecommerce_api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     // Método executado automaticamente quando a aplicação é iniciada
     @Override
     // Código para popular o banco de dados com dados de teste
@@ -43,11 +48,16 @@ public class TestConfig implements CommandLineRunner {
 
         // Terceiro pedido (mesmo dia que o segundo, mas mais tarde)
         Order o3 = new Order(null, Instant.parse("2025-06-23T21:15:22Z"), OrderStatus.WAITING_PAYMENT, u1);
-        
+
+        Category cat1 = new Category(null, "Electronics");
+        Category cat2 = new Category(null, "Books");
+        Category cat3 = new Category(null, "Computers");
+
         // Salva os usuários no banco de dados usando o repositório
         // Arrays.asList cria uma lista com os usuários para serem salvos de uma vez
         userRepository.saveAll(Arrays.asList(u1, u2));
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+        categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
 
 
 

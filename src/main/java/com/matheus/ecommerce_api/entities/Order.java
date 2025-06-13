@@ -1,7 +1,6 @@
 package com.matheus.ecommerce_api.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
 import com.matheus.ecommerce_api.entities.enums.OrderStatus;
 import jakarta.persistence.*;
 import java.io.Serializable;
