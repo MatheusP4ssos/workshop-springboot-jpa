@@ -7,13 +7,15 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-@Entity
-@Table(name = "tb_orders")
-public class Order implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Entity // @Entity: Indica que esta classe é uma entidade JPA (será uma tabela no banco)
+@Table(name = "tb_orders") // @Table: Especifica o nome da tabela no banco de dados
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+// Serializable permite que o objeto seja convertido em bytes (útil para transferência de dados)
+public class Order implements Serializable {
+    private static final long serialVersionUID = 1L;  // Controle de versão da classe para serialização
+
+    @Id // @Id: Marca este campo como chave primária da tabela
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // @GeneratedValue: O banco irá gerar automaticamente os IDs
     private Long id;
 
     // Define o formato da data que será mostrado no JSON:
@@ -32,7 +34,7 @@ public class Order implements Serializable {
     // Um pedido pertence a um cliente
     // JoinColumn define a coluna de chave estrangeira
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "client_id") //Define o nome da coluna na tabela de relacionamento
     private User client;
 
     public Order() {

@@ -16,7 +16,7 @@ import java.util.List;
 // @RestController: Combina @Controller e @ResponseBody, indica que esta classe é um controlador REST
 @RestController
 // @RequestMapping: Define o endpoint base para todos os métodos desta classe
-@RequestMapping(value = "/producties")
+@RequestMapping(value = "/products")
 public class ProductResource {
 
     @Autowired
