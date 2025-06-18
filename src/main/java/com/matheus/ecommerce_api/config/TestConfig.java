@@ -1,14 +1,8 @@
 package com.matheus.ecommerce_api.config;
 
-import com.matheus.ecommerce_api.entities.Category;
-import com.matheus.ecommerce_api.entities.Order;
-import com.matheus.ecommerce_api.entities.Product;
-import com.matheus.ecommerce_api.entities.User;
+import com.matheus.ecommerce_api.entities.*;
 import com.matheus.ecommerce_api.entities.enums.OrderStatus;
-import com.matheus.ecommerce_api.repositories.CategoryRepository;
-import com.matheus.ecommerce_api.repositories.OrderRepository;
-import com.matheus.ecommerce_api.repositories.ProductRepository;
-import com.matheus.ecommerce_api.repositories.UserRepository;
+import com.matheus.ecommerce_api.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.CommandLineRunner;
@@ -37,7 +31,11 @@ public class TestConfig implements CommandLineRunner {
 
     //Injeta o repositório de produtos automaticamente
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
+
+    //Injeta o repositório de itens do pedido automaticamente
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     // Método executado automaticamente quando a aplicação é iniciada
     @Override
@@ -106,6 +104,11 @@ public class TestConfig implements CommandLineRunner {
         p4.getCategories().add(cat3);
         p5.getCategories().add(cat2);
 
+        OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+        OrderItem oi2 = new OrderItem(o1, p3, 1, p4.getPrice());
+        OrderItem oi3 = new OrderItem(o2, p3, 2, p1.getPrice());
+        OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+
 
         // Salva os adições realizadas nos usuários, pedidos, categorias e produtos
         // Arrays.asList cria uma lista com os usuários para serem salvos de uma vez
@@ -113,8 +116,7 @@ public class TestConfig implements CommandLineRunner {
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
         categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
-
-
+        orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 
 
     }

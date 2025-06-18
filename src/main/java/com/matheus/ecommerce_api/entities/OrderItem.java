@@ -1,5 +1,6 @@
 package com.matheus.ecommerce_api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.matheus.ecommerce_api.entities.pK.OrderItemPK;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -23,7 +24,7 @@ public class OrderItem implements Serializable {
 
     // Usa a chave composta definida em OrderItemPK
     @EmbeddedId
-    private OrderItemPK id;
+    private OrderItemPK id = new OrderItemPK();
 
     private Integer quantity;    // Quantidade do produto no pedido
     private Double price;    // Preço do produto no momento da compra
@@ -48,6 +49,7 @@ public class OrderItem implements Serializable {
     }
 
     // Métodos de acesso para Order através da chave composta
+    @JsonIgnore // Impede looping infinito na serialização JSON
     public Order getOrder() {
         return id.getOrder();
     }
