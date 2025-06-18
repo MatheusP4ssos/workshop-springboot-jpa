@@ -34,10 +34,11 @@ public class OrderItem implements Serializable {
 
     /**
      * Construtor que inicializa um item de pedido
-     * @param order Pedido ao qual este item pertence
-     * @param product Produto que está sendo comprado
+     *
+     * @param order    Pedido ao qual este item pertence
+     * @param product  Produto que está sendo comprado
      * @param quantity Quantidade do produto
-     * @param price Preço unitário do produto
+     * @param price    Preço unitário do produto
      */
 
     public OrderItem(Order order, Product product, Integer quantity, Double price) {
@@ -85,6 +86,7 @@ public class OrderItem implements Serializable {
 
     /**
      * Calcula o subtotal deste item de pedido
+     *
      * @return O valor total (preço * quantidade)
      */
 

@@ -1,5 +1,6 @@
 package com.matheus.ecommerce_api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -39,6 +40,9 @@ public class Product implements Serializable {
     // Coleção que armazena os produtos pertencentes a esta categoria, usando Set para garantir que não haja duplicatas.
     // A implementação HashSet foi escolhida por sua eficiência em operações de add/remove/contains
     private Set<Category> categories = new HashSet<>();
+
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> items = new HashSet<>();
 
     public Product() {
     }
@@ -93,6 +97,15 @@ public class Product implements Serializable {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    @JsonIgnore
+    public Set<Order> getOrders() {
+        Set<Order> set = new HashSet<>();
+        for (OrderItem x : items) {
+            set.add(x.getOrder());
+        }
+        return set;
     }
 
     @Override
