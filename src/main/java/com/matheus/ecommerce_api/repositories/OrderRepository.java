@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * Interface responsável pela persistência e operações de banco de dados relacionadas à entidade Order.
  *
- * Ao estender JpaRepository<Category, Long>, esta interface herda automaticamente operações CRUD padrão:
+ * Ao estender JpaRepository<Order, Long>, esta interface herda automaticamente operações CRUD padrão:
  * - save(): Salva uma categoria
  * - findById(): Busca uma categoria pelo ID
  * - findAll(): Retorna todas as categorias

@@ -5,9 +5,9 @@ import com.matheus.ecommerce_api.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Interface responsável pela persistência e operações de banco de dados relacionadas à entidade User.
+ * Interface responsável pela persistência e operações de banco de dados relacionadas à entidade OrderItem.
  *
- * Ao estender JpaRepository<Category, Long>, esta interface herda automaticamente operações CRUD padrão:
+ * Ao estender JpaRepository<OrderItem, Long>, esta interface herda automaticamente operações CRUD padrão:
  * - save(): Salva uma categoria
  * - findById(): Busca uma categoria pelo ID
  * - findAll(): Retorna todas as categorias

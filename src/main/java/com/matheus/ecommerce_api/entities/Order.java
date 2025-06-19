@@ -39,8 +39,15 @@ public class Order implements Serializable {
     @JoinColumn(name = "client_id") //Define o nome da coluna na tabela de relacionamento
     private User client;
 
-    @OneToMany(mappedBy = "id.order")
-    private Set<OrderItem> items = new HashSet<>();
+    //Define um relacionamento um-para-muitos com OrderItem(Um pedido pode ter múltiplos itens)
+    @OneToMany(mappedBy = "id.order") // Relacionamento já mapeado pela classe OrderItem (OrderItemPK)
+    private Set<OrderItem> items = new HashSet<>(); //@Set evita elementos duplicados na lista
+
+    // Define relacionamento um-para-um com Payment
+    // Um pedido pode ter um pagamento associado
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)//Define que todas as operações realizadas em um Order serão
+    //propagadas para o Payment associado ao mesmo (cascade = ALL).
+    private Payment payment;
 
     public Order() {
     }
@@ -72,8 +79,17 @@ public class Order implements Serializable {
         return OrderStatus.valueOf(orderStatus);
     }
 
+    /**
+     * Define o status de um pedido
+     *
+     * @param orderStatus O novo status do pedido (enum OrderStatus)
+     */
     public void setOrderStatus(OrderStatus orderStatus) {
+        // Verifica se o parâmetro não é nulo para evitar NullPointerException
         if (orderStatus != null) {
+            // Armazena apenas o código numérico do status
+            // Exemplo: se orderStatus for PAID (2), apenas o número 2 será armazenado
+            // Isso economiza espaço no banco de dados
             this.orderStatus = orderStatus.getCode();
         }
     }
@@ -84,6 +100,14 @@ public class Order implements Serializable {
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     public Set<OrderItem> getItems() {

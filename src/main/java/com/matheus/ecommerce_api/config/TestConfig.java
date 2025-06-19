@@ -104,11 +104,14 @@ public class TestConfig implements CommandLineRunner {
         p4.getCategories().add(cat3);
         p5.getCategories().add(cat2);
 
+        //Conteúdo do pedido
         OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
         OrderItem oi2 = new OrderItem(o1, p3, 1, p4.getPrice());
         OrderItem oi3 = new OrderItem(o2, p3, 2, p1.getPrice());
         OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
 
+        Payment pay1 = new Payment(null, Instant.parse("2025-06-23T18:42:10Z"), o1 );
+        o1.setPayment(pay1);
 
         // Salva os adições realizadas nos usuários, pedidos, categorias e produtos
         // Arrays.asList cria uma lista com os usuários para serem salvos de uma vez
@@ -117,7 +120,7 @@ public class TestConfig implements CommandLineRunner {
         categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
         orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
-
+        orderRepository.save(o1);
 
     }
 }

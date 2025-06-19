@@ -41,8 +41,10 @@ public class Product implements Serializable {
     // A implementação HashSet foi escolhida por sua eficiência em operações de add/remove/contains
     private Set<Category> categories = new HashSet<>();
 
-    @OneToMany(mappedBy = "id.product")
-    private Set<OrderItem> items = new HashSet<>();
+    // Relacionamento um para muitos (um produto pode estar presente em vários itens de pedido)
+    @OneToMany(mappedBy = "id.product") //Mapeamento referenciando o atributo @Product dentro do objeto @Id(que é do tipo OrderItemPK)
+    //Set para garantir que não haja duplicadas e armazena a coleção de "OrderItem" relacionados ao produto."
+    private Set<OrderItem> items = new HashSet<>(); //1. **`new HashSet<>()`**: Inicia a coleção com um HashSet vazio
 
     public Product() {
     }
