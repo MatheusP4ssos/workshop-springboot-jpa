@@ -30,4 +30,16 @@ public class UserService {
         // obj.get() retorna o usuário se existir
         return obj.get();
     }
+
+    public User insert(User obj) {
+        return repository.save(obj);
+    }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
+    public User update(User obj) {
+        return repository.save(obj);
+    }
 }
