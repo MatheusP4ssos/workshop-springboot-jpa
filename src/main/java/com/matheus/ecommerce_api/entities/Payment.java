@@ -1,5 +1,6 @@
 package com.matheus.ecommerce_api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class Payment implements Serializable {
     private Instant moment;
 
     //Relacionamento um para um com Order(um pedido pode ter um pagamento associado)
+    @JsonIgnore
     @OneToOne
     @MapsId //Faz com que a entidade Payment use o mesmo ID que a entidade Order
     private Order order;

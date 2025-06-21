@@ -122,6 +122,20 @@ public class Order implements Serializable {
         return Objects.equals(id, order.id);
     }
 
+    /**
+     * Calcula o valor total do pedido
+     *
+     * @return O valor total somando todos os preços dos itens no pedido
+     */
+    public double getTotal () {
+        double total = 0.0; // Inicializa variável para acumular o valor total
+        // Itera sobre cada item do pedido
+        for (OrderItem item : items) {
+            total += item.getSubtotal();  // Adiciona o preço de cada item ao total
+        }
+        return total;// Retorna o valor total calculado
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);

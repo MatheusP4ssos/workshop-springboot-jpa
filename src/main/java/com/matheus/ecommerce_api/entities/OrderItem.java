@@ -90,8 +90,8 @@ public class OrderItem implements Serializable {
      * @return O valor total (preço * quantidade)
      */
 
-    public Double subtotal() {
-        return this.price * this.quantity;
+    public Double getSubtotal() {
+        return price * quantity;
     }
 
     @Override
