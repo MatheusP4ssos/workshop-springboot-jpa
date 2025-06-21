@@ -39,6 +39,7 @@ public class UserResource {
         return ResponseEntity.ok().body(obj);
     }
 
+    //Método para inserir usuário via requisição POST
     @PostMapping// Indica que este método responde a requisições HTTP POST
     public ResponseEntity<User> insert(@RequestBody User obj) {
         // @RequestBody: Converte o JSON do corpo da requisição em um objeto User
@@ -57,6 +58,13 @@ public class UserResource {
          * Body com o usuário criado
          */
         return ResponseEntity.created(uri).body(obj);
+    }
 
+    //Método para deletar usuário via requisição Post
+    @DeleteMapping(value = "/{id}")// Indica que este método responde a requisições HTTP POST
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) { // *Void pois não ira retornar um "BODY"
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+        //@noContent: Cria uma resposta HTTP com status 204 (No Content) sem corpo
     }
 }
