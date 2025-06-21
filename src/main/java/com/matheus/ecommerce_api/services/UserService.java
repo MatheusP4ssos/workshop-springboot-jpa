@@ -39,7 +39,18 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    public User update(User obj) {
-        return repository.save(obj);
+    public User update(Long id, User obj) {
+        // getReferenceById retorna uma referência proxy, que só acessa o banco quando necessário
+        User entity = repository.getReferenceById(id);
+        updateData(entity, obj);
+        return repository.save(entity);
+    }
+
+    // Atualiza os dados permitidos do usuário: nome, email, senha e telefone
+    private void updateData(User entity, User obj) {
+        entity.setName(obj.getName());
+        entity.setEmail(obj.getEmail());
+        entity.setPassword(obj.getPassword());
+        entity.setPhone(obj.getPhone());
     }
 }

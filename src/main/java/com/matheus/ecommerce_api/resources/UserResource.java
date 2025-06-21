@@ -3,6 +3,7 @@ package com.matheus.ecommerce_api.resources;
 import com.matheus.ecommerce_api.entities.User;
 import com.matheus.ecommerce_api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -66,5 +67,12 @@ public class UserResource {
         service.delete(id);
         return ResponseEntity.noContent().build();
         //@noContent: Cria uma resposta HTTP com status 204 (No Content) sem corpo
+    }
+
+    //Método para atualizar usuário via requisição Post
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<User> update(@PathVariable Long id,  @RequestBody User obj) {
+        obj = service.update(id, obj);
+        return ResponseEntity.ok().body(obj);
     }
 }
