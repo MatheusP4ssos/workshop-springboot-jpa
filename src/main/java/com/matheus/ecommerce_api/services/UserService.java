@@ -2,6 +2,7 @@ package com.matheus.ecommerce_api.services;
 
 import com.matheus.ecommerce_api.entities.User;
 import com.matheus.ecommerce_api.repositories.UserRepository;
+import com.matheus.ecommerce_api.services.exceptions.ResourceNotFounfException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +25,11 @@ public class UserService {
 
     // Método que busca um usuário pelo ID
     public User findById(Long id) {
-        // repository.findById() retorna um Optional<User>
-        Optional<User> obj = repository.findById(id); // repository.findById() retorna um Optional<User>
-
-        // obj.get() retorna o usuário se existir
-        return obj.get();
+        // Busca um usuário no repositório pelo ID fornecido
+        // Se o usuário não for encontrado, lança uma exceção ResourceNotFounfException
+        // incluindo o ID que não foi encontrado na mensagem de erro
+        return repository.findById(id).
+        orElseThrow(() -> new ResourceNotFounfException(id));
     }
 
     public User insert(User obj) {
