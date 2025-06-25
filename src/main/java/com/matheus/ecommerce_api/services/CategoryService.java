@@ -2,6 +2,7 @@ package com.matheus.ecommerce_api.services;
 
 import com.matheus.ecommerce_api.entities.Category;
 import com.matheus.ecommerce_api.repositories.CategoryRepository;
+import com.matheus.ecommerce_api.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +25,7 @@ public class CategoryService {
 
     // Método que busca um usuário pelo ID
     public Category findById(Long id) {
-        // repository.findById() retorna um Optional<User>
-        Optional<Category> obj = repository.findById(id); // repository.findById() retorna um Optional<User>
-
-        // obj.get() retorna o usuário se existir
-        return obj.get();
+       return repository.findById(id).
+               orElseThrow(() -> new ResourceNotFoundException(id));
     }
 }

@@ -4,9 +4,11 @@ import com.matheus.ecommerce_api.entities.User;
 import com.matheus.ecommerce_api.repositories.UserRepository;
 import com.matheus.ecommerce_api.services.exceptions.DatabaseException;
 import com.matheus.ecommerce_api.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +41,7 @@ public class UserService {
     }
 
     public void delete(Long id) {
+        //Verifica primeiro a existência do usuário no banco de dados
         if (!repository.existsById(id)) {
             throw new ResourceNotFoundException(id);
         }
@@ -52,10 +55,38 @@ public class UserService {
     }
 
     public User update(Long id, User obj) {
-        // getReferenceById retorna uma referência proxy, que só acessa o banco quando necessário
-        User entity = repository.getReferenceById(id);
-        updateData(entity, obj);
-        return repository.save(entity);
+        try {
+            User entity = repository.getReferenceById(id);
+            
+            // Validação de dados nulos
+            if (obj == null) {
+                throw new IllegalArgumentException("User object cannot be null");
+            }
+
+            // Validação de campos obrigatórios
+            if (obj.getEmail() == null || obj.getEmail().trim().isEmpty()) {
+                throw new IllegalArgumentException("Email cannot be empty");
+            }
+            if (obj.getName() == null || obj.getName().trim().isEmpty()) {
+                throw new IllegalArgumentException("Name cannot be empty");
+            }
+
+            try {
+                updateData(entity, obj);
+                return repository.save(entity);
+            } catch (DataIntegrityViolationException e) {
+                // Violação de restrições do banco (ex: email duplicado)
+                throw new DatabaseException("Database integrity error: " + e.getMessage());
+            } catch (OptimisticLockingFailureException e) {
+                // Erro de concorrência
+                throw new DatabaseException("Record was modified by another user");
+            }
+            
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException(id);
+        } catch (IllegalArgumentException e) {
+            throw new DatabaseException(e.getMessage());
+        }
     }
 
     // Atualiza os dados permitidos do usuário: nome, email, senha e telefone

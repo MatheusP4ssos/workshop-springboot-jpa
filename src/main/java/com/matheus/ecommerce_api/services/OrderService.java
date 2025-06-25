@@ -2,6 +2,7 @@ package com.matheus.ecommerce_api.services;
 
 import com.matheus.ecommerce_api.entities.Order;
 import com.matheus.ecommerce_api.repositories.OrderRepository;
+import com.matheus.ecommerce_api.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.Optional;
 public class OrderService {
 
     @Autowired    // @Autowired faz a injeção de dependência automática do repository
-                 // O Spring vai instanciar automaticamente um UserRepository para nós
+    // O Spring vai instanciar automaticamente um UserRepository para nós
     private OrderRepository repository;
 
     // Método que retorna todos os usuários do banco de dados
@@ -24,10 +25,8 @@ public class OrderService {
 
     // Método que busca um usuário pelo ID
     public Order findById(Long id) {
-        // repository.findById() retorna um Optional<User>
-        Optional<Order> obj = repository.findById(id); // repository.findById() retorna um Optional<User>
+        return repository.findById(id).
+                orElseThrow(() -> new ResourceNotFoundException(id));
 
-        // obj.get() retorna o usuário se existir
-        return obj.get();
     }
 }
