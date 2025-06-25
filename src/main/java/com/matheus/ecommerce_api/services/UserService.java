@@ -2,19 +2,21 @@ package com.matheus.ecommerce_api.services;
 
 import com.matheus.ecommerce_api.entities.User;
 import com.matheus.ecommerce_api.repositories.UserRepository;
-import com.matheus.ecommerce_api.services.exceptions.ResourceNotFounfException;
+import com.matheus.ecommerce_api.services.exceptions.DatabaseException;
+import com.matheus.ecommerce_api.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 // Indica que esta classe é um serviço do Spring e deve ser gerenciada pelo container
 @Service
 public class UserService {
 
     @Autowired    // @Autowired faz a injeção de dependência automática do repository
-                 // O Spring vai instanciar automaticamente um UserRepository para nós
+    // O Spring vai instanciar automaticamente um UserRepository para nós
     private UserRepository repository;
 
     // Método que retorna todos os usuários do banco de dados
@@ -29,7 +31,7 @@ public class UserService {
         // Se o usuário não for encontrado, lança uma exceção ResourceNotFounfException
         // incluindo o ID que não foi encontrado na mensagem de erro
         return repository.findById(id).
-        orElseThrow(() -> new ResourceNotFounfException(id));
+                orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public User insert(User obj) {
@@ -37,7 +39,16 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        repository.deleteById(id);
+        if (!repository.existsById(id)) {
+            throw new ResourceNotFoundException(id);
+        }
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException(e.getMessage());
+        }
     }
 
     public User update(Long id, User obj) {
