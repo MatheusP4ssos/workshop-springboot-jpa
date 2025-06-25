@@ -24,10 +24,10 @@ Principais
 📝 Spring Doc OpenAPI UI 2.1.0
 
 # 🗂️ Modelo de Domínio
-![Modelo de Domínio](images/Domain model.PNG)
+![Modelo de Domínio](images/Domain%20model.PNG)
 
 # 🗂️ Instância de Domínio
-![Instância de Domínio](images/Domain Instance.PNG)
+![Instância de Domínio](images/Domain%20Instance.PNG)
 
 # 🛣️ Endpoints da API
 👥 Usuários
