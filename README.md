@@ -14,6 +14,13 @@ A RESTful API for an e-commerce platform built with Spring Boot. This API handle
 - 🔧 Maven 3.9.0
 - 📝 Spring Doc OpenAPI UI 2.1.0
 
+# 🗂️ Domain model
+![Modelo de Domínio](images/Domain model.PNG)
+
+# 🗂️ Domain instance
+![Instância de Domínio](images/Domain Instance.PNG)
+
+
 ## 🛣️ API Endpoints
 
 ### 👥 Users
